@@ -1,26 +1,32 @@
-{% extends "base.html" %}
+{% extends "chat/chat.html" %}
 
 {% block title %}
-Room
+Content
 {% endblock title %}
 
-{% block content %}
-<textarea id="chat-log" cols="100" rows="20"></textarea><br />
-<input id="chat-message-input" type="text" size="100" /><br />
-<input id="chat-message-submit" type="button" value="Send" />
-{{ room_name|json_script:"room-name" }}
+{% block chat-content %}
+<div class="col-8" style="border: solid black 2px;">
+    <div id="chat-log">
+    {% for message in messages %}
+    <div>{{ message.message_content }}</div>
+    {% endfor %}
+    </div><br />    
+    <input id="chat-message-input" type="text" size="100" /><br />
+    <input id="chat-message-submit" type="button" value="Send" />
+</div>
+{{ username|json_script:"username" }}
 <script>
-  const roomName = JSON.parse(
-    document.getElementById("room-name").textContent
+  const username = JSON.parse(
+    document.getElementById("username").textContent
   );
 
   const chatSocket = new WebSocket(
-    "ws://" + window.location.host + "/ws/chat/" + roomName + "/"
+    "ws://" + window.location.host + "/ws/chat/user/" + username + "/"
   );
 
   chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    document.querySelector("#chat-log").value += data.message + "\n";
+    document.querySelector("#chat-log").innerText += data.message + "\n";
   };
 
   chatSocket.onclose = function (e) {
@@ -46,5 +52,4 @@ Room
     messageInputDom.value = "";
   };
 </script>
-
-{% endblock content %}
+{% endblock chat-content %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+Chat
+{% endblock title %}
+
+{% block content %}
+    <div class="row" style="height: 100vh;">
+        <div class="col-4" style="border: solid black 2px; ">
+            <ul>
+                {% for user in users %}
+                <li> <a href="{% url "chat-content" user.username %}">{{user}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% block chat-content %}{% endblock chat-content %}
+    </div>
+{% endblock content %}
