@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render
 
 from accounts.models import User
@@ -24,12 +25,19 @@ def chat(request):
 
 @login_required()
 def chat_content(request, username):
+    receiver = User.objects.get(username=username)
     users = User.objects.exclude(username=request.user.username)
     messages = ChatMessage.objects.filter(
-        sender=request.user, receiver__username=username
+        Q(sender=request.user, receiver__username=username)
+        | Q(sender__username=username, receiver__username=request.user)
     )
     return render(
         request,
         "chat/chat-content.html",
-        {"username": username, "messages": messages, "users": users},
+        {
+            "username": username,
+            "messages": messages,
+            "users": users,
+            "receiver": receiver,
+        },
     )

@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary sticky border-bottom">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Chat App</a>
+    <a class="navbar-brand" href="{% url "chat" %}">Chat App</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,39 +12,40 @@
 
         </li>
         <li class="nav-item mt-2 ms-2">
-          <a 
-            class="github-button" 
-            href="https://github.com/raykipkorir/" 
-            data-color-scheme="no-preference: dark; light: light; dark: dark;" 
-            data-icon="octicon-star" 
-            aria-label="Star raykipkorir/storyhub on GitHub"
+          <a
+            class="github-button"
+            href="https://github.com/raykipkorir/real-time-chat/"
+            data-color-scheme="no-preference: dark; light: light; dark: dark;"
+            data-icon="octicon-star"
+            aria-label="Star raykipkorir/real-time-chat on GitHub"
             class="m-1"
+            target="_blank"
             >
             Star on github
-          </a> 
+          </a>
         </li>
       </ul>
       {% if user.is_authenticated %}
       <ul class="navbar-nav mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa-solid fa-feather"></i> Write</a>
+          <a class="nav-link" href="{% url "join-group" %}"><i class="fa-solid fa-plus"></i> Create/Join group</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {% if user.userprofile.profile_pic %}
-              <img 
-              src="{{ user.userprofile.profile_pic.url }}" 
-              alt="" 
-              height="25" 
-              width="25" 
+            {% if user.profile_pic %}
+              <img
+              src="{{ user.profile_pic.url }}"
+              alt=""
+              height="25"
+              width="25"
               style="border-radius: 100px"
               >
             {% else %}
-              <img 
-              src="{% static 'accounts/images/default_pic.jpg' %}" 
-              alt="" 
-              height="25" 
-              width="25" 
+              <img
+              src="{% static 'accounts/images/default_pic.jpg' %}"
+              alt=""
+              height="25"
+              width="25"
               style="border-radius: 100px"
               >
             {% endif %}
@@ -58,9 +59,8 @@
               <form action="{% url "logout" %}" method="post" class="dropdown-item">
                 {% csrf_token %}
                 <button type="submit">Sign out</button>
-              </form>   
+              </form>
             </li>
-           
             {% comment %} <li><a class="dropdown-item" href="{% url "logout" %}">Sign out</a></li> {% endcomment %}
           </ul>
         </li>
@@ -71,7 +71,7 @@
       {% else %}
       <ul class="navbar-nav mb-2 mb-lg-0">
         <li class="nav-item">
-          <a href="#" class="nav-link fs-5">Login</a>
+          <a href="{% url "login" %}" class="nav-link fs-5">Login</a>
         </li>
         <li class="nav-item">
           <a class="nav-link btn btn-success" href="{% url "signup" %}">Get Started</a>
