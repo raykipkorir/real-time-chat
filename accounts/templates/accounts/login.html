@@ -7,11 +7,12 @@ Login page
 {% endblock title %}
 
 {% block content %}
-<h1>Login page</h1>
-<form action="{% url "login" %}" method="POST">
-    {% csrf_token %}
-    {{form | crispy}}
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
-
+<div class="col-md-3 offset-md-4">
+    <h1>Login page</h1>
+    <form action="{% url "login" %}" method="POST">
+        {% csrf_token %}
+        {{form | crispy}}
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>
 {% endblock content %}

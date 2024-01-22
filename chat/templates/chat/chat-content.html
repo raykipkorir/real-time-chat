@@ -1,16 +1,44 @@
 {% extends "chat/chat.html" %}
+{% load static %}
 
 {% block title %}
-Content
+Chat with {{username}}
 {% endblock title %}
 
 {% block chat-content %}
 <div class="col-8" style="border: solid black 2px;">
+  <div class="d-flex align-items-center gap-2">
+    {% if receiver.profile_pic %}
+    <img
+    src="{{ receiver.profile_pic.url }}"
+    alt=""
+    height="25"
+    width="25"
+    style="border-radius: 100px"
+    >
+    {% else %}
+    <img
+    src="{% static 'accounts/images/default_pic.jpg' %}"
+    alt=""
+    height="25"
+    width="25"
+    style="border-radius: 100px"
+    >
+    {% endif %}
+    <h3>{{username|title}}</h3>
+  </div>
+    <hr>
     <div id="chat-log">
     {% for message in messages %}
-    <div>{{ message.message_content }}</div>
+    <div>
+      {% if message.sender.username == request.user.username%}
+      me: {{ message.message_content }}
+      {% else %}
+      {{ message.sender.username }}: {{ message.message_content }}
+      {% endif %}
+    </div>
     {% endfor %}
-    </div><br />    
+    </div><br />
     <input id="chat-message-input" type="text" size="100" /><br />
     <input id="chat-message-submit" type="button" value="Send" />
 </div>
@@ -26,7 +54,13 @@ Content
 
   chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    document.querySelector("#chat-log").innerText += data.message + "\n";
+    if (data.sender === username || data.receiver === username){
+      if (data.sender != username){
+        document.querySelector("#chat-log").innerText += "\n" + "me: " + data.message;
+      } else{
+        document.querySelector("#chat-log").innerText += "\n" + data.sender + ": " + data.message;
+      }
+    }
   };
 
   chatSocket.onclose = function (e) {

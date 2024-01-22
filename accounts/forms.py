@@ -3,7 +3,6 @@ from accounts.models import User
 
 
 class SignupForm(UserCreationForm):
-    
     class Meta:
         model = User
-        fields = ("username", "password1", "password2")
+        fields = ("username", "profile_pic", "password1", "password2")
