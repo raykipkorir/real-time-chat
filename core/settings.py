@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "accounts",
     "crispy_forms",
     "crispy_bootstrap5",
+    "debug_toolbar",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -49,6 +50,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     # "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -148,3 +150,9 @@ CHANNEL_LAYERS = {
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_REDIRECT_URL = "/chat/"
 LOGIN_URL = "/"
+
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+    "localhost",
+]
