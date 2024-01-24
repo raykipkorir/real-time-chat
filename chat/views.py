@@ -2,42 +2,54 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
 
-from accounts.models import User
+from accounts.models import User, GroupChat
 
-from .models import ChatMessage
-
-
-@login_required()
-def index(request):
-    return render(request, "chat/index.html")
-
-
-@login_required()
-def room(request, room_name):
-    return render(request, "chat/room.html", {"room_name": room_name})
+from .models import ChatMessage, GroupMessage
 
 
 @login_required()
 def chat(request):
     users = User.objects.exclude(username=request.user.username)
-    return render(request, "chat/chat.html", {"users": users})
+    groups = GroupChat.objects.filter(users=request.user)
+    return render(request, "chat/chat.html", {"users": users, "groups": groups})
 
 
 @login_required()
-def chat_content(request, username):
+def private_chat(request, username):
     receiver = User.objects.get(username=username)
     users = User.objects.exclude(username=request.user.username)
+    groups = GroupChat.objects.filter(users=request.user)
     messages = ChatMessage.objects.filter(
         Q(sender=request.user, receiver__username=username)
         | Q(sender__username=username, receiver__username=request.user)
     )
     return render(
         request,
-        "chat/chat-content.html",
+        "chat/private-chat.html",
         {
-            "username": username,
             "messages": messages,
             "users": users,
+            "groups": groups,
             "receiver": receiver,
+        },
+    )
+
+
+@login_required()
+def group_chat(request, group_name):
+    group = GroupChat.objects.get(name=group_name)
+    members = group.users.all()
+    users = User.objects.exclude(username=request.user.username)
+    groups = GroupChat.objects.filter(users=request.user)
+    messages = GroupMessage.objects.filter(receiver=group)
+    return render(
+        request,
+        "chat/group-chat.html",
+        {
+            "group": group,
+            "users": users,
+            "groups": groups,
+            "members": members,
+            "messages": messages,
         },
     )
