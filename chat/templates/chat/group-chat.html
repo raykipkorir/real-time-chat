@@ -1,0 +1,99 @@
+{% extends "chat/chat.html" %}
+{% load static %}
+
+{% block title %}
+Chatting in {{group.name}}
+{% endblock title %}
+
+{% block chat-content %}
+<div class="col-8" style="border: solid black 2px;">
+  <div class="d-flex align-items-center gap-2">
+    {% if group.profile_pic %}
+    <img
+    src="{{ group.profile_pic.url }}"
+    alt=""
+    height="25"
+    width="25"
+    style="border-radius: 100px"
+    >
+    {% else %}
+    <img
+    src="{% static 'accounts/images/default_pic.jpg' %}"
+    alt=""
+    height="25"
+    width="25"
+    style="border-radius: 100px"
+    >
+    {% endif %}
+    <h3>{{group.name|title}}</h3>
+  </div>
+    <div>Created by {{group.created_by.username}}</div>
+    <div>Members:
+      {% for member in members %}
+      {{member}},
+      {% endfor %}
+    </div>
+    <hr>
+    <div id="chat-log">
+    {% for message in messages %}
+    <div>
+      {% if message.sender.username == request.user.username%}
+      me: {{ message.message_content }}
+      {% else %}
+      {{ message.sender.username }}: {{ message.message_content }}
+      {% endif %}
+    </div>
+    {% endfor %}
+    </div><br />
+    <input id="chat-message-input" type="text" size="100" /><br />
+    <input id="chat-message-submit" type="button" value="Send" />
+</div>
+{{ group.name|json_script:"group_name" }}
+{% comment %} logged in user {% endcomment %}
+{{ user.username|json_script:"username" }}
+<script>
+  const group_name = JSON.parse(
+    document.getElementById("group_name").textContent
+  );
+  const username = JSON.parse(
+    document.getElementById("username").textContent
+  );
+  const chatSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/chat/group/" + group_name + "/"
+  );
+
+  chatSocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    if (data.group_name === group_name){
+      if (data.sender === username){
+        document.querySelector("#chat-log").innerText += "\n" + "me: " + data.message;
+      } else{
+        document.querySelector("#chat-log").innerText += "\n" + data.sender + ": " + data.message;
+      }
+    }
+  };
+
+  chatSocket.onclose = function (e) {
+    console.error("Chat socket closed unexpectedly");
+  };
+
+  document.querySelector("#chat-message-input").focus();
+  document.querySelector("#chat-message-input").onkeyup = function (e) {
+    if (e.key === "Enter") {
+      // enter, return
+      document.querySelector("#chat-message-submit").click();
+    }
+  };
+
+  document.querySelector("#chat-message-submit").onclick = function (e) {
+    const messageInputDom = document.querySelector("#chat-message-input");
+    const message = messageInputDom.value;
+    chatSocket.send(
+      JSON.stringify({
+        message: message,
+      })
+    );
+    messageInputDom.value = "";
+  };
+</script>
+{% endblock chat-content %}

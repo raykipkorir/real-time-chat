@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block title %}
+Join group
+{% endblock title %}
+
+{% block content %}
+<div class="d-flex">
+    <div class="col-md-3 offset-md-1">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button type="submit">Create group</button>
+        </form>
+    </div>
+    <div class="col-md-3 offset-md-2">
+        <h5>Available groups to join</h5>
+        {% if groups %}
+        <ul>
+            {% for group in groups %}
+              <li><a href="{% url "join-group" group.name%}">{{group.name}}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <h6>No Available groups</h6>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

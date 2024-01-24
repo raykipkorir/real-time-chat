@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-Chat with {{username}}
+Chat with {{receiver.username}}
 {% endblock title %}
 
 {% block chat-content %}
@@ -25,7 +25,7 @@ Chat with {{username}}
     style="border-radius: 100px"
     >
     {% endif %}
-    <h3>{{username|title}}</h3>
+    <h3>{{receiver.username|title}}</h3>
   </div>
     <hr>
     <div id="chat-log">
@@ -42,7 +42,7 @@ Chat with {{username}}
     <input id="chat-message-input" type="text" size="100" /><br />
     <input id="chat-message-submit" type="button" value="Send" />
 </div>
-{{ username|json_script:"username" }}
+{{ receiver.username|json_script:"username" }}
 <script>
   const username = JSON.parse(
     document.getElementById("username").textContent

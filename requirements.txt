@@ -17,6 +17,7 @@ daphne==4.0.0
 distlib==0.3.8
 Django==5.0.1
 django-crispy-forms==2.1
+django-debug-toolbar==4.2.0
 filelock==3.13.1
 hyperlink==21.0.0
 identify==2.5.33

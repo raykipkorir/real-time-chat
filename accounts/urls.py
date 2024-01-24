@@ -1,7 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from .views import signup_view
+from .views import signup_view, group_create_view, join_group
 
 urlpatterns = [
     path(
@@ -13,4 +13,6 @@ urlpatterns = [
     ),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("signup/", signup_view, name="signup"),
+    path("create-group/", group_create_view, name="create-group"),
+    path("join-group/<str:group_name>/", join_group, name="join-group"),
 ]
