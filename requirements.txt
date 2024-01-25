@@ -15,6 +15,7 @@ crispy-bootstrap5==2023.10
 cryptography==41.0.7
 daphne==4.0.0
 distlib==0.3.8
+dj-database-url==2.1.0
 Django==5.0.1
 django-crispy-forms==2.1
 django-debug-toolbar==4.2.0
@@ -35,6 +36,7 @@ pyasn1==0.5.1
 pyasn1-modules==0.3.0
 pycparser==2.21
 pyOpenSSL==23.3.0
+python-decouple==3.8
 PyYAML==6.0.1
 redis==5.0.1
 service-identity==24.1.0
