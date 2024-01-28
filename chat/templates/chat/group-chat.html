@@ -59,7 +59,7 @@ Chatting in {{group.name}}
     document.getElementById("username").textContent
   );
   const chatSocket = new WebSocket(
-    "ws://" + window.location.host + "/ws/chat/group/" + group_name + "/"
+    "wss://" + window.location.host + "/ws/chat/group/" + group_name + "/"
   );
 
   chatSocket.onmessage = function (e) {
