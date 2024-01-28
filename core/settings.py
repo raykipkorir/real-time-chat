@@ -186,3 +186,5 @@ INTERNAL_IPS = [
     "127.0.0.1",
     "localhost",
 ]
+
+CSRF_TRUSTED_ORIGINS = ["https://real-time-chat-dyun.onrender.com/"]
