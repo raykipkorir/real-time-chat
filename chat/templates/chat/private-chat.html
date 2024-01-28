@@ -49,7 +49,7 @@ Chat with {{receiver.username}}
   );
 
   const chatSocket = new WebSocket(
-    "ws://" + window.location.host + "/ws/chat/user/" + username + "/"
+    "wss://" + window.location.host + "/ws/chat/user/" + username + "/"
   );
 
   chatSocket.onmessage = function (e) {
