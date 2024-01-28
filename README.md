@@ -7,6 +7,7 @@ Chat with friends and family
 - Redis
 - PostgreSQL
 - Amazon S3
+- Docker
   
 Visit https://real-time-chat-dyun.onrender.com/signup/ to create a free account.
 
