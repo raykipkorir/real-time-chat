@@ -7,11 +7,12 @@ Signup page
 {% endblock title %}
 
 {% block content %}
-<div class="col-md-3 offset-md-4">
+<div class="col-md-5 offset-md-4">
     <h1>Signup page</h1>
     <form action="{% url "signup" %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{form | crispy}}
+        <div>Already have an account? <a href="{% url "login" %}">Log in</a></div>
         <button type="submit" class="btn btn-primary">Signup</button>
     </form>
 </div>

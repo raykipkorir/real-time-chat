@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Settings - Real time chat
+{% endblock title %}
+
+{% block content %}
+<div class="row mt-5">
+    {% comment %} first column {% endcomment %}
+    <div class="col-md-3 offset-md-1">
+        <nav class="nav flex-column font-monospace">
+            <a class="nav-link active" style="color: black;" aria-current="page" href="{% url "user_update" %}">
+                <i class="fa-solid fa-user"></i>
+                User info
+            </a>
+            <a class="nav-link" href="{% url "user_delete" %}" style="color: black;">
+                <i class="fa-solid fa-lock"></i>
+                Account
+            </a>
+            <a class="nav-link" href="{% url "password_change" %}" style="color: black;">
+                <i class="fa-solid fa-key"></i>
+                Change password
+            </a>
+        </nav>
+    </div>
+    {% comment %} second column {% endcomment %}
+    <div class="col-md-6">
+
+    {% block settings-form %}{% endblock settings-form %}
+
+    </div>
+</div>
+{% endblock content %}
