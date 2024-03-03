@@ -4,7 +4,7 @@ from accounts.models import GroupChat, User
 
 
 class AbstractMessage(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     message_content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -15,9 +15,9 @@ class AbstractMessage(models.Model):
 
 class ChatMessage(AbstractMessage):
     receiver = models.ForeignKey(
-        User, on_delete=models.DO_NOTHING, related_name="receiver"
+        User, on_delete=models.SET_NULL, related_name="receiver", null=True
     )
 
 
 class GroupMessage(AbstractMessage):
-    receiver = models.ForeignKey(GroupChat, on_delete=models.DO_NOTHING)
+    receiver = models.ForeignKey(GroupChat, on_delete=models.SET_NULL, null=True)

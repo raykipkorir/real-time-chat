@@ -29,7 +29,7 @@ Chat with {{receiver.username}}
   </div>
     <hr>
     <div id="chat-log">
-    {% for message in messages %}
+    {% for message in chat_messages %}
     <div>
       {% if message.sender.username == request.user.username%}
       me: {{ message.message_content }}

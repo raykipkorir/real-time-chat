@@ -19,7 +19,7 @@ def private_chat(request, username):
     receiver = User.objects.get(username=username)
     users = User.objects.exclude(username=request.user.username)
     groups = GroupChat.objects.filter(users=request.user)
-    messages = ChatMessage.objects.select_related("sender", "receiver").filter(
+    chat_messages = ChatMessage.objects.select_related("sender", "receiver").filter(
         Q(sender=request.user, receiver__username=username)
         | Q(sender__username=username, receiver__username=request.user)
     )
@@ -27,7 +27,7 @@ def private_chat(request, username):
         request,
         "chat/private-chat.html",
         {
-            "messages": messages,
+            "chat_messages": chat_messages,
             "users": users,
             "groups": groups,
             "receiver": receiver,
@@ -43,7 +43,7 @@ def group_chat(request, group_name):
     groups = GroupChat.objects.prefetch_related("created_by", "users").filter(
         users=request.user
     )
-    messages = GroupMessage.objects.select_related("sender", "receiver").filter(
+    chat_messages = GroupMessage.objects.select_related("sender", "receiver").filter(
         receiver=group
     )
     return render(
@@ -54,6 +54,6 @@ def group_chat(request, group_name):
             "users": users,
             "groups": groups,
             "members": members,
-            "messages": messages,
+            "chat_messages": chat_messages,
         },
     )

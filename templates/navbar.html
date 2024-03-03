@@ -51,9 +51,7 @@
             {% endif %}
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user"></i> Profile (Coming soon)</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i> Settings (Coming son)</a></li>
+            <li><a class="dropdown-item" href="{% url "user_update" %}"><i class="fa-solid fa-gear"></i> Settings</a></li>
             <li><hr class="dropdown-divider"></li>
             <li>
               <form action="{% url "logout" %}" method="post" class="dropdown-item">

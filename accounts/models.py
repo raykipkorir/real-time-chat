@@ -1,8 +1,19 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 
 
 class User(AbstractUser):
+    username_validator = UnicodeUsernameValidator()
+
+    username = models.CharField(
+        max_length=150,
+        unique=True,
+        validators=[username_validator],
+        error_messages={
+            "unique": "A user with that username already exists.",
+        },
+    )
     channel_name = models.CharField(max_length=500, blank=True, null=True)
     profile_pic = models.ImageField(
         upload_to="personal_profile_pics", blank=True, null=True

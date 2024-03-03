@@ -35,6 +35,7 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1, localhost", cast=Csv
 
 INSTALLED_APPS = [
     "daphne",
+    "accounts",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -42,7 +43,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "chat",
-    "accounts",
     "crispy_forms",
     "crispy_bootstrap5",
     "debug_toolbar",
@@ -177,9 +177,9 @@ CHANNEL_LAYERS = {
     }
 }
 
-LOGOUT_REDIRECT_URL = "/"
-LOGIN_REDIRECT_URL = "/chat/"
-LOGIN_URL = "/"
+LOGOUT_REDIRECT_URL = "login"
+LOGIN_REDIRECT_URL = "chat"
+LOGIN_URL = "login"
 
 
 INTERNAL_IPS = [
@@ -188,3 +188,5 @@ INTERNAL_IPS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = ["https://real-time-chat-dyun.onrender.com"]
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
