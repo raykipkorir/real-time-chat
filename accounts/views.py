@@ -20,9 +20,7 @@ def signup_view(request):
                 login(request, user)
                 messages.success(request, "Account created successfully")
                 return redirect("chat")
-        return render(
-            request, "accounts/signup.html", {"form": form, "messages": messages}
-        )
+        return render(request, "accounts/signup.html", {"form": form})
     else:
         return redirect("chat")
 
